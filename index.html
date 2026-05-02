@@ -1,1 +1,809 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HDPSTORE - Top Up Game Terpercaya</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #000000;
+            --fg: #ffffff;
+            --muted: #888888;
+            --accent: #00ff41;
+            --accent-dim: #00cc33;
+            --card: #0a0a0a;
+            --border: #1a1a1a;
+            --glow: rgba(0, 255, 65, 0.3);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--fg); overflow-x: hidden; }
 
+        .logo-text {
+            font-family: 'Orbitron', sans-serif; font-weight: 900;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            background: linear-gradient(90deg, #00ff41, #ffffff, #00ff41);
+            background-size: 200% auto;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: logoShimmer 3s linear infinite;
+            position: relative; letter-spacing: 3px;
+        }
+        .logo-text::after {
+            content: 'HDPSTORE'; position: absolute; left: 0; top: 0;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            background-size: 200% auto;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: logoGlitch 2s ease-in-out infinite; opacity: 0.5; filter: blur(2px);
+        }
+        @keyframes logoShimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+        @keyframes logoGlitch {
+            0%, 100% { transform: translate(0); } 20% { transform: translate(-2px, 1px); }
+            40% { transform: translate(2px, -1px); } 60% { transform: translate(-1px, -1px); } 80% { transform: translate(1px, 2px); }
+        }
+        .logo-pulse { display: inline-block; animation: logoPulse 2s ease-in-out infinite; }
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px var(--glow)); }
+            50% { transform: scale(1.03); filter: drop-shadow(0 0 20px var(--glow)); }
+        }
+        .neon-border { border: 1px solid var(--accent); box-shadow: 0 0 10px var(--glow), inset 0 0 10px rgba(0,255,65,0.05); }
+        .neon-glow { text-shadow: 0 0 10px var(--accent), 0 0 20px var(--glow), 0 0 40px var(--glow); }
+        .btn-neon {
+            background: linear-gradient(135deg, #00ff41, #00cc33); color: #000; font-weight: 700;
+            border: none; padding: 14px 32px; border-radius: 8px; cursor: pointer;
+            position: relative; overflow: hidden; transition: all 0.3s ease;
+            font-size: 1rem; letter-spacing: 1px; font-family: 'Poppins', sans-serif;
+        }
+        .btn-neon::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg) translateX(-100%); transition: transform 0.6s;
+        }
+        .btn-neon:hover::before { transform: rotate(45deg) translateX(100%); }
+        .btn-neon:hover { box-shadow: 0 0 30px var(--glow), 0 0 60px rgba(0,255,65,0.15); transform: translateY(-2px); }
+        .btn-neon:active { transform: translateY(0) scale(0.98); }
+
+        /* Hero */
+        .hero-slider { position: relative; width: 100%; height: 420px; overflow: hidden; border-radius: 16px; }
+        .hero-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease-in-out; display: flex; align-items: center; justify-content: center; }
+        .hero-slide.active { opacity: 1; }
+        .hero-slide-1 { background: linear-gradient(135deg, #000 0%, #001a00 40%, #003300 70%, #000 100%); }
+        .hero-slide-2 { background: linear-gradient(135deg, #000 0%, #0a0a0a 40%, #002200 70%, #000 100%); }
+        .hero-slide-3 { background: linear-gradient(135deg, #000 0%, #001100 40%, #004400 70%, #000 100%); }
+        .hero-slide .hero-grid-bg {
+            position: absolute; inset: 0;
+            background-image: linear-gradient(rgba(0,255,65,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,65,0.05) 1px, transparent 1px);
+            background-size: 40px 40px; animation: gridMove 20s linear infinite;
+        }
+        @keyframes gridMove { 0% { transform: translate(0, 0); } 100% { transform: translate(40px, 40px); } }
+        .hero-content { position: relative; z-index: 2; text-align: center; padding: 2rem; }
+        .hero-content h2 { font-family: 'Orbitron', sans-serif; font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 900; margin-bottom: 0.75rem; }
+        .hero-content p { color: var(--muted); font-size: clamp(0.85rem, 2vw, 1.1rem); max-width: 500px; margin: 0 auto; }
+        .hero-dots { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 10; }
+        .hero-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--border); border: 1px solid #333; cursor: pointer; transition: all 0.3s; }
+        .hero-dot.active { background: var(--accent); box-shadow: 0 0 12px var(--glow); border-color: var(--accent); }
+
+        /* Partikel */
+        .particle { position: fixed; width: 2px; height: 2px; background: var(--accent); border-radius: 50%; pointer-events: none; opacity: 0; animation: particleFloat linear infinite; }
+        @keyframes particleFloat {
+            0% { opacity: 0; transform: translateY(100vh) scale(0); } 10% { opacity: 0.8; } 90% { opacity: 0.3; }
+            100% { opacity: 0; transform: translateY(-10vh) scale(1); }
+        }
+
+        /* Game Cards */
+        .game-card {
+            background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem;
+            cursor: pointer; transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); position: relative; overflow: hidden;
+        }
+        .game-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent); transform: scaleX(0); transition: transform 0.4s;
+        }
+        .game-card:hover::before { transform: scaleX(1); }
+        .game-card:hover { border-color: var(--accent); transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 30px rgba(0,255,65,0.1); }
+        .game-icon { width: 70px; height: 70px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 1rem; position: relative; }
+        .game-icon::after { content: ''; position: absolute; inset: 0; border-radius: 14px; border: 1px solid rgba(0,255,65,0.2); }
+        .game-card .card-arrow { position: absolute; top: 50%; right: 16px; transform: translateY(-50%) translateX(-8px); color: var(--accent); opacity: 0; transition: all 0.3s; font-size: 1.2rem; }
+        .game-card:hover .card-arrow { opacity: 1; transform: translateY(-50%) translateX(0); }
+
+        /* Produk Terlaris */
+        .best-card {
+            background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+            padding: 1.25rem; transition: all 0.4s; position: relative; overflow: hidden; cursor: pointer;
+        }
+        .best-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent); transform: scaleX(0); transition: transform 0.4s;
+        }
+        .best-card:hover::before { transform: scaleX(1); }
+        .best-card:hover { border-color: rgba(0,255,65,0.4); transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.4), 0 0 20px rgba(0,255,65,0.08); }
+        .best-badge {
+            position: absolute; top: 12px; right: 12px; padding: 2px 8px; border-radius: 6px;
+            font-size: 0.6rem; font-weight: 700; letter-spacing: 0.5px;
+            background: rgba(0,255,65,0.12); color: var(--accent); border: 1px solid rgba(0,255,65,0.25);
+        }
+        .best-fire { color: #ff6633; animation: firePulse 1.5s ease-in-out infinite; }
+        @keyframes firePulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.15); } }
+        .best-sold-bar { height: 4px; border-radius: 2px; background: var(--border); overflow: hidden; margin-top: 8px; }
+        .best-sold-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--accent-dim), var(--accent)); transition: width 1s ease-out; }
+
+        /* Aktivitas Slider — 1 per 1 */
+        .activity-showcase { position: relative; min-height: 200px; }
+        .activity-card-single {
+            position: absolute; inset: 0; opacity: 0; transform: translateY(20px) scale(0.97);
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); pointer-events: none;
+        }
+        .activity-card-single.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+        .activity-card-inner {
+            background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+            padding: 1.5rem 1.75rem; display: flex; align-items: center; gap: 1.25rem;
+            transition: border-color 0.3s;
+        }
+        .activity-card-inner:hover { border-color: rgba(0,255,65,0.3); }
+        .activity-big-avatar {
+            width: 64px; height: 64px; border-radius: 16px; display: flex; align-items: center;
+            justify-content: center; font-size: 1.5rem; flex-shrink: 0;
+        }
+        .activity-progress-bar {
+            width: 100%; height: 3px; border-radius: 2px; background: var(--border);
+            margin-top: 16px; overflow: hidden;
+        }
+        .activity-progress-fill {
+            height: 100%; background: var(--accent); border-radius: 2px;
+            animation: progressCountdown 60s linear infinite;
+        }
+        @keyframes progressCountdown { 0% { width: 100%; } 100% { width: 0%; } }
+
+        /* Dialog */
+        .dialog-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); z-index: 9000;
+            display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.35s; padding: 16px;
+        }
+        .dialog-overlay.show { opacity: 1; pointer-events: auto; }
+        .dialog-box {
+            background: #0c0c0c; border: 1px solid var(--accent); border-radius: 20px; width: 100%; max-width: 680px;
+            max-height: 90vh; overflow-y: auto; box-shadow: 0 0 60px var(--glow), 0 30px 80px rgba(0,0,0,0.6);
+            transform: scale(0.88) translateY(30px); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .dialog-overlay.show .dialog-box { transform: scale(1) translateY(0); }
+        .dialog-box::-webkit-scrollbar { width: 4px; }
+        .dialog-box::-webkit-scrollbar-track { background: transparent; }
+        .dialog-box::-webkit-scrollbar-thumb { background: var(--accent-dim); border-radius: 2px; }
+        .dialog-header {
+            padding: 1.5rem 1.5rem 1rem; border-bottom: 1px solid var(--border); display: flex; align-items: center;
+            justify-content: space-between; position: sticky; top: 0; background: #0c0c0c; z-index: 10; border-radius: 20px 20px 0 0;
+        }
+        .dialog-close {
+            width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--border); background: transparent;
+            color: var(--muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: all 0.3s; flex-shrink: 0;
+        }
+        .dialog-close:hover { border-color: #ff4444; color: #ff4444; background: rgba(255,68,68,0.1); }
+        .dialog-body { padding: 1.5rem; }
+
+        /* Form */
+        .form-input {
+            width: 100%; background: #080808; border: 1px solid var(--border); border-radius: 10px; padding: 13px 16px;
+            color: var(--fg); font-size: 0.9rem; font-family: 'Poppins', sans-serif; transition: all 0.3s; outline: none;
+        }
+        .form-input:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(0,255,65,0.15); }
+        .form-input::placeholder { color: #444; }
+        .form-select {
+            width: 100%; background: #080808; border: 1px solid var(--border); border-radius: 10px; padding: 13px 16px;
+            color: var(--fg); font-size: 0.9rem; font-family: 'Poppins', sans-serif; transition: all 0.3s; outline: none; cursor: pointer;
+            appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2300ff41' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 16px center;
+        }
+        .form-select:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(0,255,65,0.15); }
+        .form-select option { background: #111; color: #fff; }
+        .form-label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--accent); margin-bottom: 6px; letter-spacing: 0.5px; }
+
+        .nominal-chip { padding: 10px 14px; background: #080808; border: 1px solid var(--border); border-radius: 10px; cursor: pointer; transition: all 0.3s; text-align: center; }
+        .nominal-chip:hover { border-color: #333; background: #0f0f0f; }
+        .nominal-chip.selected { border-color: var(--accent); background: rgba(0,255,65,0.08); box-shadow: 0 0 12px rgba(0,255,65,0.1); }
+        .nominal-chip .price { color: var(--accent); font-weight: 700; font-size: 0.85rem; }
+        .nominal-chip .item { color: var(--muted); font-size: 0.7rem; margin-top: 2px; }
+
+        /* Aktivitas mini di dialog */
+        .activity-mini { display: flex; align-items: center; gap: 10px; padding: 8px 10px; background: #080808; border: 1px solid var(--border); border-radius: 10px; }
+        .activity-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--accent); box-shadow: 0 0 6px var(--glow); }
+
+        /* Toast */
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+        .toast {
+            background: #111; border: 1px solid var(--accent); border-radius: 12px; padding: 14px 20px; color: var(--fg);
+            font-size: 0.9rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px var(--glow); display: flex; align-items: center;
+            gap: 10px; animation: toastIn 0.4s ease-out; min-width: 280px;
+        }
+        .toast.success i { color: var(--accent); } .toast.error i { color: #ff4444; }
+        @keyframes toastIn { 0% { opacity: 0; transform: translateX(100px); } 100% { opacity: 1; transform: translateX(0); } }
+        @keyframes toastOut { 0% { opacity: 1; transform: translateX(0); } 100% { opacity: 0; transform: translateX(100px); } }
+
+        /* Navbar */
+        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); transition: all 0.3s; }
+        .navbar.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.5); }
+
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .scanline-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 9998; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px); }
+
+        .confirm-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 9500;
+            display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; padding: 16px;
+        }
+        .confirm-overlay.show { opacity: 1; pointer-events: auto; }
+        .confirm-box { background: #111; border: 1px solid var(--accent); border-radius: 16px; padding: 2rem; max-width: 420px; width: 100%; box-shadow: 0 0 40px var(--glow); transform: scale(0.9); transition: transform 0.3s; }
+        .confirm-overlay.show .confirm-box { transform: scale(1); }
+
+        .section-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0.3; margin: 0 auto; max-width: 600px; }
+        footer a { color: var(--muted); transition: color 0.3s; text-decoration: none; }
+        footer a:hover { color: var(--accent); }
+        ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: #000; } ::-webkit-scrollbar-thumb { background: var(--accent-dim); border-radius: 3px; }
+
+        .activity-slider-dots { display: flex; gap: 6px; justify-content: center; margin-top: 14px; }
+        .activity-slider-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); border: none; cursor: pointer; transition: all 0.3s; padding: 0; }
+        .activity-slider-dot.active { background: var(--accent); box-shadow: 0 0 8px var(--glow); }
+
+        @media (max-width: 768px) {
+            .hero-slider { height: 320px; } .hero-content h2 { font-size: 1.3rem; }
+            .dialog-body { padding: 1rem; }
+            .activity-card-inner { flex-direction: column; text-align: center; padding: 1.25rem; }
+            .activity-big-avatar { width: 52px; height: 52px; font-size: 1.2rem; }
+        }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+    </style>
+</head>
+<body>
+
+    <div id="particles" aria-hidden="true"></div>
+    <div class="scanline-overlay" aria-hidden="true"></div>
+    <div class="toast-container" id="toastContainer" role="alert" aria-live="polite"></div>
+
+    <!-- Dialog Box -->
+    <div class="dialog-overlay" id="dialogOverlay" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
+        <div class="dialog-box">
+            <div class="dialog-header">
+                <div class="flex items-center gap-3">
+                    <div id="dialogGameIcon" class="w-10 h-10 rounded-xl flex items-center justify-center text-lg"></div>
+                    <div>
+                        <h3 id="dialogTitle" class="font-bold text-sm" style="font-family:'Orbitron',sans-serif;"></h3>
+                        <p id="dialogSubtitle" class="text-xs" style="color:var(--muted);"></p>
+                    </div>
+                </div>
+                <button class="dialog-close" onclick="closeDialog()" aria-label="Tutup"><i class="fas fa-xmark"></i></button>
+            </div>
+            <div class="dialog-body">
+                <div class="mb-4">
+                    <label class="form-label" for="dialogGameId"><i class="fas fa-id-badge mr-1"></i> ID Game</label>
+                    <input type="text" id="dialogGameId" class="form-input" placeholder="Masukkan ID Game kamu" autocomplete="off">
+                    <p id="dialogGameIdHint" class="text-xs mt-1.5" style="color:#444;"></p>
+                </div>
+                <div class="mb-4" id="dialogServerWrapper" style="display:none;">
+                    <label class="form-label" for="dialogServerId"><i class="fas fa-server mr-1"></i> Server ID</label>
+                    <input type="text" id="dialogServerId" class="form-input" placeholder="Masukkan Server ID" autocomplete="off">
+                </div>
+                <div class="mb-4">
+                    <label class="form-label"><i class="fas fa-coins mr-1"></i> Pilih Nominal</label>
+                    <div id="dialogNominalGrid" class="grid grid-cols-3 gap-2"></div>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label" for="dialogPayment"><i class="fas fa-wallet mr-1"></i> Metode Pembayaran</label>
+                    <select id="dialogPayment" class="form-select">
+                        <option value="">-- Pilih Metode --</option>
+                        <optgroup label="E-Wallet"><option value="dana">DANA</option><option value="ovo">OVO</option><option value="gopay">GoPay</option><option value="shopeepay">ShopeePay</option><option value="linkaja">LinkAja</option></optgroup>
+                        <optgroup label="Bank Transfer"><option value="bca">BCA</option><option value="bni">BNI</option><option value="bri">BRI</option><option value="mandiri">Mandiri</option><option value="cimb">CIMB Niaga</option></optgroup>
+                        <optgroup label="Convenience Store"><option value="indomaret">Indomaret</option><option value="alfamart">Alfamart</option></optgroup>
+                        <optgroup label="Pulsa"><option value="telkomsel">Telkomsel</option><option value="xl">XL / Axis</option><option value="tri">Tri (3)</option><option value="smartfren">Smartfren</option></optgroup>
+                    </select>
+                </div>
+                <div class="mb-5">
+                    <label class="form-label" for="dialogEmail"><i class="fas fa-envelope mr-1"></i> Email (opsional)</label>
+                    <input type="email" id="dialogEmail" class="form-input" placeholder="Untuk menerima bukti pembayaran" autocomplete="off">
+                </div>
+                <button class="btn-neon w-full text-center" onclick="submitDialog()" id="dialogSubmitBtn"><i class="fas fa-bolt mr-2"></i>PROSES TOP UP</button>
+
+                <div style="border-top:1px solid var(--border); padding-top:1.25rem; margin-top:1.25rem;">
+                    <div class="flex items-center gap-2 mb-3">
+                        <i class="fas fa-clock-rotate-left text-xs" style="color:var(--accent);"></i>
+                        <span class="font-semibold text-xs">Aktivitas Terkini</span>
+                    </div>
+                    <div id="dialogActivityFeed" class="flex flex-col gap-2"></div>
+                    <div class="mt-3 p-3 rounded-lg" style="background:rgba(0,255,65,0.04); border:1px solid rgba(0,255,65,0.12);">
+                        <div class="flex items-center gap-2 mb-1"><i class="fas fa-shield-halved text-xs" style="color:var(--accent);"></i><span class="font-semibold text-xs">Garansi 100%</span></div>
+                        <p class="text-xs" style="color:#555;">Jika item tidak masuk dalam 5 menit, dana dikembalikan penuh.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Modal -->
+    <div class="confirm-overlay" id="confirmOverlay" role="dialog" aria-modal="true">
+        <div class="confirm-box">
+            <h3 class="font-bold text-lg mb-2" style="color:var(--accent); font-family:'Orbitron',sans-serif;">Konfirmasi Pesanan</h3>
+            <div id="confirmContent" class="text-sm mb-5" style="color:var(--muted);"></div>
+            <div class="flex gap-3">
+                <button onclick="closeConfirm()" class="flex-1 py-3 font-semibold text-sm" style="border:1px solid var(--border); color:var(--muted); border-radius:10px; cursor:pointer; background:transparent; font-family:'Poppins',sans-serif;">Batal</button>
+                <button onclick="processOrder()" class="btn-neon flex-1 text-sm" style="padding:12px;">Bayar Sekarang</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="logo-pulse"><span class="logo-text">HDPSTORE</span></div>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#home" class="text-sm font-medium hover:text-green-400 transition-colors">Beranda</a>
+                <a href="#layanan" class="text-sm font-medium hover:text-green-400 transition-colors">Layanan</a>
+                <a href="#terlaris" class="text-sm font-medium hover:text-green-400 transition-colors">Terlaris</a>
+                <a href="#aktivitas" class="text-sm font-medium hover:text-green-400 transition-colors">Aktivitas</a>
+            </div>
+            <button id="mobileMenuBtn" class="md:hidden text-xl" style="color:var(--accent); background:none; border:none; cursor:pointer;" aria-label="Menu"><i class="fas fa-bars"></i></button>
+        </div>
+        <div id="mobileMenu" class="md:hidden hidden px-4 pb-4 flex flex-col gap-3" style="border-top:1px solid var(--border);">
+            <a href="#home" class="text-sm font-medium py-2">Beranda</a>
+            <a href="#layanan" class="text-sm font-medium py-2">Layanan</a>
+            <a href="#terlaris" class="text-sm font-medium py-2">Terlaris</a>
+            <a href="#aktivitas" class="text-sm font-medium py-2">Aktivitas</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero -->
+        <section id="home" class="pt-24 pb-8 px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="hero-slider neon-border" role="region" aria-label="Banner Promosi">
+                    <div class="hero-slide hero-slide-1 active"><div class="hero-grid-bg"></div>
+                        <div class="hero-content">
+                            <div class="inline-block mb-3 px-4 py-1 rounded-full text-xs font-bold tracking-widest" style="background:rgba(0,255,65,0.15); color:var(--accent); border:1px solid rgba(0,255,65,0.3);">PROMO SPESIAL</div>
+                            <h2>Mobile Legends<br><span class="neon-glow" style="color:var(--accent);">Diskon 20%</span></h2>
+                            <p>Top up Diamond Mobile Legends dengan harga termurah. Proses instan hanya 3 detik!</p>
+                        </div>
+                    </div>
+                    <div class="hero-slide hero-slide-2"><div class="hero-grid-bg"></div>
+                        <div class="hero-content">
+                            <div class="inline-block mb-3 px-4 py-1 rounded-full text-xs font-bold tracking-widest" style="background:rgba(0,255,65,0.15); color:var(--accent); border:1px solid rgba(0,255,65,0.3);">BEST SELLER</div>
+                            <h2>PUBG Mobile<br><span class="neon-glow" style="color:var(--accent);">UC Termurah</span></h2>
+                            <p>Dapatkan UC PUBG Mobile dengan cashback 10%. Garansi 100% masuk ke akun kamu.</p>
+                        </div>
+                    </div>
+                    <div class="hero-slide hero-slide-3"><div class="hero-grid-bg"></div>
+                        <div class="hero-content">
+                            <div class="inline-block mb-3 px-4 py-1 rounded-full text-xs font-bold tracking-widest" style="background:rgba(0,255,65,0.15); color:var(--accent); border:1px solid rgba(0,255,65,0.3);">NEW GAME</div>
+                            <h2>Roblox & Magic Chest<br><span class="neon-glow" style="color:var(--accent);">Tersedia Sekarang</span></h2>
+                            <p>Top up Robux dan Magic Chest Go Go di HDPSTORE. Aman, cepat, dan terpercaya.</p>
+                        </div>
+                    </div>
+                    <div class="hero-dots" role="tablist">
+                        <button class="hero-dot active" data-slide="0" role="tab" aria-label="Slide 1" aria-selected="true"></button>
+                        <button class="hero-dot" data-slide="1" role="tab" aria-label="Slide 2" aria-selected="false"></button>
+                        <button class="hero-dot" data-slide="2" role="tab" aria-label="Slide 3" aria-selected="false"></button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+                    <div class="text-center p-4 rounded-xl reveal" style="background:var(--card); border:1px solid var(--border);"><div class="text-2xl font-bold" style="color:var(--accent); font-family:'Orbitron',sans-serif;">50K+</div><div class="text-xs mt-1" style="color:var(--muted);">Transaksi Sukses</div></div>
+                    <div class="text-center p-4 rounded-xl reveal" style="background:var(--card); border:1px solid var(--border);"><div class="text-2xl font-bold" style="color:var(--accent); font-family:'Orbitron',sans-serif;">3 Detik</div><div class="text-xs mt-1" style="color:var(--muted);">Proses Cepat</div></div>
+                    <div class="text-center p-4 rounded-xl reveal" style="background:var(--card); border:1px solid var(--border);"><div class="text-2xl font-bold" style="color:var(--accent); font-family:'Orbitron',sans-serif;">24/7</div><div class="text-xs mt-1" style="color:var(--muted);">Layanan Aktif</div></div>
+                    <div class="text-center p-4 rounded-xl reveal" style="background:var(--card); border:1px solid var(--border);"><div class="text-2xl font-bold" style="color:var(--accent); font-family:'Orbitron',sans-serif;">100%</div><div class="text-xs mt-1" style="color:var(--muted);">Aman & Terpercaya</div></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider my-10"></div>
+
+        <!-- Game Cards -->
+        <section id="layanan" class="py-8 px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-10 reveal">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-2" style="font-family:'Orbitron',sans-serif;">Pilih Game</h2>
+                    <p class="text-sm" style="color:var(--muted);">Klik game untuk membuka form top up</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                    <div class="game-card reveal" data-game="ml" onclick="openDialog('ml')" role="button" tabindex="0">
+                        <div class="game-icon" style="background:linear-gradient(135deg, #1a0033, #0d001a);"><i class="fas fa-crown" style="color:#ffcc00;"></i></div>
+                        <h3 class="font-bold text-sm mb-1">Mobile Legends</h3><p class="text-xs" style="color:var(--muted);">Bang Bang</p>
+                        <div class="mt-3 flex items-center gap-1"><span class="inline-block w-2 h-2 rounded-full" style="background:var(--accent);"></span><span class="text-xs" style="color:var(--accent);">Diamond</span></div>
+                        <i class="fas fa-chevron-right card-arrow"></i>
+                    </div>
+                    <div class="game-card reveal" data-game="magic" onclick="openDialog('magic')" role="button" tabindex="0">
+                        <div class="game-icon" style="background:linear-gradient(135deg, #001a0d, #000d06);"><i class="fas fa-box-open" style="color:#00ff41;"></i></div>
+                        <h3 class="font-bold text-sm mb-1">Magic Chest</h3><p class="text-xs" style="color:var(--muted);">Go Go</p>
+                        <div class="mt-3 flex items-center gap-1"><span class="inline-block w-2 h-2 rounded-full" style="background:var(--accent);"></span><span class="text-xs" style="color:var(--accent);">Koin & Chest</span></div>
+                        <i class="fas fa-chevron-right card-arrow"></i>
+                    </div>
+                    <div class="game-card reveal" data-game="pubg" onclick="openDialog('pubg')" role="button" tabindex="0">
+                        <div class="game-icon" style="background:linear-gradient(135deg, #1a1100, #0d0800);"><i class="fas fa-crosshairs" style="color:#ff8800;"></i></div>
+                        <h3 class="font-bold text-sm mb-1">PUBG Mobile</h3><p class="text-xs" style="color:var(--muted);">Battle Royale</p>
+                        <div class="mt-3 flex items-center gap-1"><span class="inline-block w-2 h-2 rounded-full" style="background:var(--accent);"></span><span class="text-xs" style="color:var(--accent);">UC</span></div>
+                        <i class="fas fa-chevron-right card-arrow"></i>
+                    </div>
+                    <div class="game-card reveal" data-game="roblox" onclick="openDialog('roblox')" role="button" tabindex="0">
+                        <div class="game-icon" style="background:linear-gradient(135deg, #0d001a, #06000d);"><i class="fas fa-cube" style="color:#cc44ff;"></i></div>
+                        <h3 class="font-bold text-sm mb-1">ROBLOX</h3><p class="text-xs" style="color:var(--muted);">Platform Gaming</p>
+                        <div class="mt-3 flex items-center gap-1"><span class="inline-block w-2 h-2 rounded-full" style="background:var(--accent);"></span><span class="text-xs" style="color:var(--accent);">Robux</span></div>
+                        <i class="fas fa-chevron-right card-arrow"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider my-10"></div>
+
+        <!-- Produk Terlaris -->
+        <section id="terlaris" class="py-8 px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-10 reveal">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-2" style="font-family:'Orbitron',sans-serif;">Produk Terlaris</h2>
+                    <p class="text-sm" style="color:var(--muted);">Item paling banyak dipesan minggu ini</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="bestSellerGrid"></div>
+            </div>
+        </section>
+
+        <div class="section-divider my-10"></div>
+
+        <!-- Aktivitas Pembelian — 1 per 1 -->
+        <section id="aktivitas" class="py-8 px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-10 reveal">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-2" style="font-family:'Orbitron',sans-serif;">Aktivitas Pembelian</h2>
+                    <p class="text-sm" style="color:var(--muted);">Transaksi terbaru yang berhasil diproses</p>
+                </div>
+                <div class="reveal">
+                    <div class="rounded-2xl neon-border p-4 md:p-6" style="background:var(--card);">
+                        <div class="activity-showcase" id="activityShowcase"></div>
+                        <div class="activity-progress-bar"><div class="activity-progress-fill" id="activityProgressFill"></div></div>
+                        <div class="activity-slider-dots" id="activitySliderDots"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider my-10"></div>
+
+        <!-- Keunggulan -->
+        <section class="py-8 px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-10 reveal">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-2" style="font-family:'Orbitron',sans-serif;">Kenapa HDPSTORE?</h2>
+                    <p class="text-sm" style="color:var(--muted);">Alasan ribuan gamer mempercayai kami</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="p-6 rounded-2xl reveal" style="background:var(--card); border:1px solid var(--border);">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center text-lg mb-4" style="background:rgba(0,255,65,0.1);"><i class="fas fa-bolt" style="color:var(--accent);"></i></div>
+                        <h3 class="font-bold mb-2">Proses Instan</h3>
+                        <p class="text-sm" style="color:var(--muted);">Top up diproses otomatis dalam hitungan detik. Tidak perlu menunggu lama sama sekali.</p>
+                    </div>
+                    <div class="p-6 rounded-2xl reveal" style="background:var(--card); border:1px solid var(--border);">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center text-lg mb-4" style="background:rgba(0,255,65,0.1);"><i class="fas fa-tag" style="color:var(--accent);"></i></div>
+                        <h3 class="font-bold mb-2">Harga Terjangkau</h3>
+                        <p class="text-sm" style="color:var(--muted);">Harga kompetitif dan sering ada promo spesial setiap minggu untuk semua game.</p>
+                    </div>
+                    <div class="p-6 rounded-2xl reveal" style="background:var(--card); border:1px solid var(--border);">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center text-lg mb-4" style="background:rgba(0,255,65,0.1);"><i class="fas fa-headset" style="color:var(--accent);"></i></div>
+                        <h3 class="font-bold mb-2">CS Responsif 24/7</h3>
+                        <p class="text-sm" style="color:var(--muted);">Tim customer service siap membantu kapan saja melalui WhatsApp dan Telegram.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-16 px-4 pb-8" style="border-top:1px solid var(--border);">
+        <div class="max-w-6xl mx-auto pt-10">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <div class="logo-pulse mb-3"><span class="logo-text" style="font-size:1.5rem;">HDPSTORE</span></div>
+                    <p class="text-sm" style="color:var(--muted);">Toko top up game online terpercaya di Indonesia. Melayani ribuan transaksi setiap harinya.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-3 text-sm">Layanan</h4>
+                    <div class="flex flex-col gap-2"><a href="#layanan" class="text-sm">Mobile Legends</a><a href="#layanan" class="text-sm">Magic Chest Go Go</a><a href="#layanan" class="text-sm">PUBG Mobile</a><a href="#layanan" class="text-sm">ROBLOX</a></div>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-3 text-sm">Hubungi Kami</h4>
+                    <div class="flex flex-col gap-2"><a href="#" class="text-sm"><i class="fab fa-whatsapp mr-2" style="color:var(--accent);"></i>WhatsApp</a><a href="#" class="text-sm"><i class="fab fa-instagram mr-2" style="color:var(--accent);"></i>Instagram</a><a href="#" class="text-sm"><i class="fab fa-telegram mr-2" style="color:var(--accent);"></i>Telegram</a><a href="#" class="text-sm"><i class="fas fa-envelope mr-2" style="color:var(--accent);"></i>Email</a></div>
+                </div>
+            </div>
+            <div class="section-divider mb-6"></div>
+            <div class="flex flex-col md:flex-row items-center justify-between gap-3">
+                <p class="text-xs" style="color:#444;">&copy; 2025 HDPSTORE. All rights reserved.</p>
+                <p class="text-xs" style="color:#333;">Powered with <span style="color:var(--accent);"><i class="fas fa-heart"></i></span> by HDPSTORE Team</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ===== DATA GAME =====
+        const gameData = {
+            ml: { name:'Mobile Legends Bang Bang', subtitle:'Top Up Diamond', icon:'<i class="fas fa-crown" style="color:#ffcc00;"></i>', iconBg:'linear-gradient(135deg, #1a0033, #0d001a)', hint:'ID Game bisa dilihat di profil game (pojok kiri atas)', needServer:true,
+                nominals:[{item:'86 Diamond',price:'Rp 19.000'},{item:'172 Diamond',price:'Rp 38.000'},{item:'257 Diamond',price:'Rp 57.000'},{item:'344 Diamond',price:'Rp 76.000'},{item:'514 Diamond',price:'Rp 114.000'},{item:'706 Diamond',price:'Rp 152.000'},{item:'1086 Diamond',price:'Rp 228.000'},{item:'2195 Diamond',price:'Rp 456.000'},{item:'Starlight Member',price:'Rp 149.000'}]},
+            magic: { name:'Magic Chest Go Go', subtitle:'Top Up Koin & Chest', icon:'<i class="fas fa-box-open" style="color:#00ff41;"></i>', iconBg:'linear-gradient(135deg, #001a0d, #000d06)', hint:'Masukkan username akun Magic Chest Go Go kamu', needServer:false,
+                nominals:[{item:'100 Koin',price:'Rp 10.000'},{item:'300 Koin',price:'Rp 28.000'},{item:'500 Koin',price:'Rp 45.000'},{item:'1000 Koin',price:'Rp 85.000'},{item:'2000 Koin',price:'Rp 160.000'},{item:'5000 Koin',price:'Rp 380.000'},{item:'Magic Chest x1',price:'Rp 15.000'},{item:'Magic Chest x5',price:'Rp 65.000'},{item:'Magic Chest x10',price:'Rp 120.000'}]},
+            pubg: { name:'PUBG Mobile', subtitle:'Top Up UC', icon:'<i class="fas fa-crosshairs" style="color:#ff8800;"></i>', iconBg:'linear-gradient(135deg, #1a1100, #0d0800)', hint:'ID Game bisa dilihat di profil PUBG Mobile', needServer:false,
+                nominals:[{item:'60 UC',price:'Rp 15.000'},{item:'325 UC',price:'Rp 79.000'},{item:'660 UC',price:'Rp 159.000'},{item:'1800 UC',price:'Rp 399.000'},{item:'3850 UC',price:'Rp 799.000'},{item:'8100 UC',price:'Rp 1.599.000'},{item:'Royal Pass (RM)',price:'Rp 149.000'},{item:'Royal Pass (Elite)',price:'Rp 289.000'},{item:'Prime Plus',price:'Rp 479.000'}]},
+            roblox: { name:'ROBLOX', subtitle:'Top Up Robux', icon:'<i class="fas fa-cube" style="color:#cc44ff;"></i>', iconBg:'linear-gradient(135deg, #0d001a, #06000d)', hint:'Masukkan username ROBLOX kamu', needServer:false,
+                nominals:[{item:'80 Robux',price:'Rp 15.000'},{item:'200 Robux',price:'Rp 37.000'},{item:'400 Robux',price:'Rp 73.000'},{item:'800 Robux',price:'Rp 145.000'},{item:'1700 Robux',price:'Rp 289.000'},{item:'4500 Robux',price:'Rp 729.000'},{item:'Premium 450',price:'Rp 99.000'},{item:'Premium 1000',price:'Rp 199.000'},{item:'Premium 2200',price:'Rp 399.000'}]}
+        };
+
+        const gameMeta = {
+            ml: { icon:'<i class="fas fa-crown" style="color:#ffcc00;"></i>', bg:'linear-gradient(135deg, #1a0033, #0d001a)', name:'Mobile Legends' },
+            magic: { icon:'<i class="fas fa-box-open" style="color:#00ff41;"></i>', bg:'linear-gradient(135deg, #001a0d, #000d06)', name:'Magic Chest' },
+            pubg: { icon:'<i class="fas fa-crosshairs" style="color:#ff8800;"></i>', bg:'linear-gradient(135deg, #1a1100, #0d0800)', name:'PUBG Mobile' },
+            roblox: { icon:'<i class="fas fa-cube" style="color:#cc44ff;"></i>', bg:'linear-gradient(135deg, #0d001a, #06000d)', name:'ROBLOX' },
+        };
+
+        // ===== 4 PRODUK TERLARIS =====
+        const bestSellers = [
+            { game:'ml', item:'514 Diamond', price:'Rp 114.000', sold:12840, maxSold:15000, rank:1 },
+            { game:'pubg', item:'660 UC', price:'Rp 159.000', sold:9520, maxSold:15000, rank:2 },
+            { game:'roblox', item:'800 Robux', price:'Rp 145.000', sold:7310, maxSold:15000, rank:3 },
+            { game:'magic', item:'Magic Chest x5', price:'Rp 65.000', sold:5890, maxSold:15000, rank:4 },
+        ];
+
+        // ===== 20 AKTIVITAS PEMBELIAN =====
+        const allActivities = [
+            { buyer:'Rizki***', game:'ml', item:'514 Diamond', price:'Rp 114.000', method:'DANA', time:'2 menit lalu' },
+            { buyer:'Sari***', game:'pubg', item:'660 UC', price:'Rp 159.000', method:'GoPay', time:'5 menit lalu' },
+            { buyer:'Dimas***', game:'roblox', item:'800 Robux', price:'Rp 145.000', method:'BCA', time:'8 menit lalu' },
+            { buyer:'Ayu***', game:'magic', item:'Magic Chest x5', price:'Rp 65.000', method:'OVO', time:'12 menit lalu' },
+            { buyer:'Budi***', game:'ml', item:'1086 Diamond', price:'Rp 228.000', method:'ShopeePay', time:'15 menit lalu' },
+            { buyer:'Nadia***', game:'pubg', item:'Royal Pass Elite', price:'Rp 289.000', method:'Mandiri', time:'18 menit lalu' },
+            { buyer:'Fajar***', game:'ml', item:'257 Diamond', price:'Rp 57.000', method:'DANA', time:'22 menit lalu' },
+            { buyer:'Lina***', game:'roblox', item:'Premium 1000', price:'Rp 199.000', method:'BNI', time:'25 menit lalu' },
+            { buyer:'Hendra***', game:'magic', item:'1000 Koin', price:'Rp 85.000', method:'LinkAja', time:'30 menit lalu' },
+            { buyer:'Dewi***', game:'pubg', item:'325 UC', price:'Rp 79.000', method:'Indomaret', time:'35 menit lalu' },
+            { buyer:'Andi***', game:'ml', item:'Starlight Member', price:'Rp 149.000', method:'Telkomsel', time:'40 menit lalu' },
+            { buyer:'Yoga***', game:'roblox', item:'1700 Robux', price:'Rp 289.000', method:'GoPay', time:'45 menit lalu' },
+            { buyer:'Putri***', game:'magic', item:'500 Koin', price:'Rp 45.000', method:'Alfamart', time:'48 menit lalu' },
+            { buyer:'Riko***', game:'pubg', item:'1800 UC', price:'Rp 399.000', method:'BCA', time:'52 menit lalu' },
+            { buyer:'Mira***', game:'ml', item:'706 Diamond', price:'Rp 152.000', method:'OVO', time:'56 menit lalu' },
+            { buyer:'Tono***', game:'roblox', item:'400 Robux', price:'Rp 73.000', method:'DANA', time:'1 jam lalu' },
+            { buyer:'Sinta***', game:'magic', item:'2000 Koin', price:'Rp 160.000', method:'BRI', time:'1 jam lalu' },
+            { buyer:'Arif***', game:'pubg', item:'3850 UC', price:'Rp 799.000', method:'CIMB Niaga', time:'1 jam lalu' },
+            { buyer:'Citra***', game:'ml', item:'344 Diamond', price:'Rp 76.000', method:'XL/Axis', time:'2 jam lalu' },
+            { buyer:'Galih***', game:'roblox', item:'4500 Robux', price:'Rp 729.000', method:'Mandiri', time:'2 jam lalu' },
+        ];
+
+        // ===== STATE =====
+        let currentGameKey = null, selectedNominal = null, currentSlide = 0;
+        let heroSlideInterval = null, activityIndex = 0, activityInterval = null;
+        const ACTIVITY_INTERVAL = 60000; // 60 detik
+
+        // ===== INIT =====
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            renderBestSellers();
+            buildActivitySlider();
+            startHeroSlider();
+            startActivitySlider();
+            initScrollReveal();
+            initNavbar();
+            initMobileMenu();
+        });
+
+        function createParticles() {
+            const c = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const p = document.createElement('div'); p.classList.add('particle');
+                p.style.left = Math.random()*100+'%';
+                p.style.animationDuration = (8+Math.random()*12)+'s';
+                p.style.animationDelay = (Math.random()*10)+'s';
+                p.style.width = p.style.height = (1+Math.random()*3)+'px';
+                c.appendChild(p);
+            }
+        }
+
+        // ===== HERO SLIDER =====
+        function startHeroSlider() {
+            heroSlideInterval = setInterval(() => goHeroSlide((currentSlide+1)%3), 30000);
+            document.querySelectorAll('.hero-dot').forEach(d => {
+                d.addEventListener('click', () => {
+                    clearInterval(heroSlideInterval);
+                    goHeroSlide(parseInt(d.dataset.slide));
+                    heroSlideInterval = setInterval(() => goHeroSlide((currentSlide+1)%3), 30000);
+                });
+            });
+        }
+        function goHeroSlide(i) {
+            const s = document.querySelectorAll('.hero-slide'), d = document.querySelectorAll('.hero-dot');
+            s[currentSlide].classList.remove('active'); d[currentSlide].classList.remove('active'); d[currentSlide].setAttribute('aria-selected','false');
+            currentSlide = i; s[currentSlide].classList.add('active'); d[currentSlide].classList.add('active'); d[currentSlide].setAttribute('aria-selected','true');
+        }
+
+        // ===== PRODUK TERLARIS =====
+        function renderBestSellers() {
+            const grid = document.getElementById('bestSellerGrid');
+            grid.innerHTML = bestSellers.map((b, idx) => {
+                const m = gameMeta[b.game];
+                const pct = Math.round((b.sold / b.maxSold) * 100);
+                return `
+                <div class="best-card reveal" onclick="openDialog('${b.game}')" role="button" tabindex="0" style="transition-delay:${idx*0.1}s;">
+                    <div class="best-badge"><i class="fas fa-fire best-fire mr-1"></i>TOP ${b.rank}</div>
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-3" style="background:${m.bg};">${m.icon}</div>
+                    <p class="text-xs font-semibold mb-1" style="color:var(--muted);">${m.name}</p>
+                    <p class="font-bold text-sm mb-1">${b.item}</p>
+                    <p class="font-bold text-base" style="color:var(--accent);">${b.price}</p>
+                    <div class="best-sold-bar"><div class="best-sold-fill" style="width:0%;" data-target="${pct}"></div></div>
+                    <p class="text-xs mt-1.5" style="color:#555;">${b.sold.toLocaleString('id-ID')} terjual</p>
+                </div>`;
+            }).join('');
+
+            // Animasi bar setelah reveal
+            setTimeout(() => {
+                document.querySelectorAll('.best-sold-fill').forEach(bar => {
+                    bar.style.width = bar.dataset.target + '%';
+                });
+            }, 800);
+        }
+
+        // ===== AKTIVITAS SLIDER — 1 PER 1 =====
+        function buildActivitySlider() {
+            const showcase = document.getElementById('activityShowcase');
+            const dotsC = document.getElementById('activitySliderDots');
+
+            let cardsHTML = '';
+            allActivities.forEach((a, i) => {
+                const m = gameMeta[a.game];
+                cardsHTML += `
+                <div class="activity-card-single ${i===0?'active':''}" data-act-idx="${i}">
+                    <div class="activity-card-inner">
+                        <div class="activity-big-avatar" style="background:${m.bg};">${m.icon}</div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap mb-1">
+                                <span class="font-bold text-base">${a.buyer}</span>
+                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold" style="background:rgba(0,255,65,0.1); color:var(--accent); border:1px solid rgba(0,255,65,0.2);">
+                                    <i class="fas fa-check" style="font-size:0.5rem;"></i> Berhasil
+                                </span>
+                            </div>
+                            <p class="text-sm" style="color:var(--muted);">${m.name} — ${a.item}</p>
+                            <div class="flex items-center gap-3 mt-1.5 flex-wrap">
+                                <span class="text-xs" style="color:#555;"><i class="fas fa-wallet mr-1" style="color:#444;"></i>${a.method}</span>
+                                <span class="text-xs" style="color:#555;"><i class="fas fa-clock mr-1" style="color:#444;"></i>${a.time}</span>
+                            </div>
+                        </div>
+                        <div class="text-right flex-shrink-0 hidden sm:block">
+                            <p class="text-xl font-bold" style="color:var(--accent); font-family:'Orbitron',sans-serif; font-size:clamp(0.9rem,2vw,1.25rem);">${a.price}</p>
+                            <p class="text-xs mt-1" style="color:#444;">Transaksi #${String(i+1).padStart(4,'0')}</p>
+                        </div>
+                        <div class="text-center flex-shrink-0 sm:hidden mt-2">
+                            <p class="text-lg font-bold" style="color:var(--accent); font-family:'Orbitron',sans-serif;">${a.price}</p>
+                        </div>
+                    </div>
+                </div>`;
+            });
+            showcase.innerHTML = cardsHTML;
+
+            // Dots
+            let dotsHTML = '';
+            allActivities.forEach((_, i) => {
+                dotsHTML += `<button class="activity-slider-dot ${i===0?'active':''}" data-act-dot="${i}" aria-label="Transaksi ${i+1}"></button>`;
+            });
+            dotsC.innerHTML = dotsHTML;
+
+            // Klik dot
+            dotsC.querySelectorAll('.activity-slider-dot').forEach(d => {
+                d.addEventListener('click', () => {
+                    resetActivityTimer();
+                    goToActivity(parseInt(d.dataset.actDot));
+                });
+            });
+        }
+
+        function goToActivity(idx) {
+            activityIndex = idx;
+            const cards = document.querySelectorAll('.activity-card-single');
+            const dots = document.querySelectorAll('.activity-slider-dot');
+            cards.forEach(c => c.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+            cards[idx].classList.add('active');
+            dots[idx].classList.add('active');
+
+            // Reset progress bar
+            const fill = document.getElementById('activityProgressFill');
+            fill.style.animation = 'none';
+            void fill.offsetWidth; // reflow
+            fill.style.animation = 'progressCountdown 60s linear infinite';
+        }
+
+        function resetActivityTimer() {
+            clearInterval(activityInterval);
+            activityInterval = setInterval(() => {
+                goToActivity((activityIndex + 1) % allActivities.length);
+            }, ACTIVITY_INTERVAL);
+        }
+
+        function startActivitySlider() {
+            activityInterval = setInterval(() => {
+                goToActivity((activityIndex + 1) % allActivities.length);
+            }, ACTIVITY_INTERVAL);
+        }
+
+        // ===== NAVBAR =====
+        function initNavbar() {
+            window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50); });
+        }
+        function initMobileMenu() {
+            const btn = document.getElementById('mobileMenuBtn'), menu = document.getElementById('mobileMenu');
+            btn.addEventListener('click', () => { menu.classList.toggle('hidden'); const i = btn.querySelector('i'); i.classList.toggle('fa-bars'); i.classList.toggle('fa-xmark'); });
+            menu.querySelectorAll('a').forEach(a => { a.addEventListener('click', () => { menu.classList.add('hidden'); const i = btn.querySelector('i'); i.classList.add('fa-bars'); i.classList.remove('fa-xmark'); }); });
+        }
+        function initScrollReveal() {
+            const obs = new IntersectionObserver(e => e.forEach(en => { if (en.isIntersecting) en.target.classList.add('visible'); }), { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+            document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+        }
+
+        // ===== DIALOG =====
+        function openDialog(gk) {
+            currentGameKey = gk; selectedNominal = null;
+            const g = gameData[gk];
+            document.getElementById('dialogGameIcon').style.background = g.iconBg;
+            document.getElementById('dialogGameIcon').innerHTML = g.icon;
+            document.getElementById('dialogTitle').textContent = g.name;
+            document.getElementById('dialogSubtitle').textContent = g.subtitle;
+            document.getElementById('dialogGameId').value = '';
+            document.getElementById('dialogServerId').value = '';
+            document.getElementById('dialogPayment').value = '';
+            document.getElementById('dialogEmail').value = '';
+            const h = document.getElementById('dialogGameIdHint'); h.textContent = g.hint; h.style.color = 'var(--accent)';
+            document.getElementById('dialogServerWrapper').style.display = g.needServer ? 'block' : 'none';
+            document.getElementById('dialogNominalGrid').innerHTML = g.nominals.map((n,i) => `<div class="nominal-chip" onclick="pickNominal(${i})" role="button" tabindex="0"><div class="price">${n.price}</div><div class="item">${n.item}</div></div>`).join('');
+
+            // Aktivitas mini di dialog — filter game
+            const da = allActivities.filter(a => a.game === gk).slice(0,4);
+            const fc = document.getElementById('dialogActivityFeed');
+            fc.innerHTML = da.length > 0 ? da.map(a => `<div class="activity-mini"><div class="activity-dot"></div><div class="flex-1 min-w-0"><span class="text-xs font-semibold">${a.buyer}</span><span class="text-xs" style="color:var(--muted);"> — ${a.item}</span></div><span class="text-xs font-bold flex-shrink-0" style="color:var(--accent);">${a.price}</span><span class="text-xs flex-shrink-0" style="color:#444;">${a.time}</span></div>`).join('') : '<p class="text-xs" style="color:#444;">Belum ada aktivitas untuk game ini.</p>';
+
+            const btn = document.getElementById('dialogSubmitBtn');
+            btn.innerHTML = '<i class="fas fa-bolt mr-2"></i>PROSES TOP UP'; btn.disabled = false; btn.style.opacity = '1'; btn.style.background = ''; btn.style.color = '';
+            document.getElementById('dialogOverlay').classList.add('show'); document.body.style.overflow = 'hidden';
+        }
+        function closeDialog() { document.getElementById('dialogOverlay').classList.remove('show'); document.body.style.overflow = ''; }
+        document.getElementById('dialogOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeDialog(); });
+
+        function pickNominal(i) { selectedNominal = i; document.querySelectorAll('#dialogNominalGrid .nominal-chip').forEach((c,idx) => c.classList.toggle('selected', idx===i)); }
+
+        function submitDialog() {
+            const gid = document.getElementById('dialogGameId').value.trim(), sid = document.getElementById('dialogServerId').value.trim(), pay = document.getElementById('dialogPayment').value, em = document.getElementById('dialogEmail').value.trim(), g = gameData[currentGameKey];
+            if (!gid) return showToast('error','Masukkan ID Game');
+            if (g.needServer && !sid) return showToast('error','Masukkan Server ID');
+            if (selectedNominal === null) return showToast('error','Pilih nominal top up');
+            if (!pay) return showToast('error','Pilih metode pembayaran');
+            const n = g.nominals[selectedNominal];
+            const pn = {dana:'DANA',ovo:'OVO',gopay:'GoPay',shopeepay:'ShopeePay',linkaja:'LinkAja',bca:'BCA',bni:'BNI',bri:'BRI',mandiri:'Mandiri',cimb:'CIMB Niaga',indomaret:'Indomaret',alfamart:'Alfamart',telkomsel:'Telkomsel',xl:'XL/Axis',tri:'Tri (3)',smartfren:'Smartfren'};
+            document.getElementById('confirmContent').innerHTML = `<div class="space-y-3 text-sm" style="color:var(--fg);"><div class="flex justify-between"><span style="color:var(--muted);">Game</span><span class="font-semibold">${g.name}</span></div><div class="flex justify-between"><span style="color:var(--muted);">ID Game</span><span class="font-semibold">${gid}${g.needServer?' ('+sid+')':''}</span></div><div class="flex justify-between"><span style="color:var(--muted);">Nominal</span><span class="font-semibold">${n.item}</span></div><div class="flex justify-between"><span style="color:var(--muted);">Harga</span><span class="font-bold" style="color:var(--accent);">${n.price}</span></div><div class="flex justify-between"><span style="color:var(--muted);">Pembayaran</span><span class="font-semibold">${pn[pay]}</span></div>${em?`<div class="flex justify-between"><span style="color:var(--muted);">Email</span><span class="font-semibold">${em}</span></div>`:''}</div>`;
+            document.getElementById('confirmOverlay').classList.add('show');
+        }
+        function closeConfirm() { document.getElementById('confirmOverlay').classList.remove('show'); }
+        document.getElementById('confirmOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeConfirm(); });
+
+        function processOrder() {
+            closeConfirm();
+            const btn = document.getElementById('dialogSubmitBtn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>MEMPROSES...'; btn.disabled = true; btn.style.opacity = '0.7';
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-check mr-2"></i>BERHASIL'; btn.style.background = 'var(--accent)'; btn.style.color = '#000';
+                showToast('success','Top up berhasil! Silakan cek akun game kamu.');
+                setTimeout(() => { closeDialog(); setTimeout(() => { btn.innerHTML = '<i class="fas fa-bolt mr-2"></i>PROSES TOP UP'; btn.disabled = false; btn.style.opacity = '1'; btn.style.background = ''; btn.style.color = ''; currentGameKey = null; selectedNominal = null; }, 400); }, 1500);
+            }, 2000);
+        }
+
+        function showToast(type, msg) {
+            const c = document.getElementById('toastContainer'), t = document.createElement('div');
+            t.className = `toast ${type}`; const ic = type==='success'?'fa-circle-check':'fa-circle-exclamation';
+            t.innerHTML = `<i class="fas ${ic}"></i><span>${msg}</span>`; c.appendChild(t);
+            setTimeout(() => { t.style.animation = 'toastOut 0.3s ease-in forwards'; setTimeout(() => t.remove(), 300); }, 3000);
+        }
+
+        // Keyboard & ESC
+        document.querySelectorAll('.game-card, .best-card').forEach(c => { c.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); c.click(); } }); });
+        document.addEventListener('keydown', e => {
+            if (e.key==='Escape') { if (document.getElementById('confirmOverlay').classList.contains('show')) closeConfirm(); else if (document.getElementById('dialogOverlay').classList.contains('show')) closeDialog(); }
+        });
+        document.querySelectorAll('a[href^="#"]').forEach(a => { a.addEventListener('click', e => { e.preventDefault(); const t = document.querySelector(a.getAttribute('href')); if (t) t.scrollIntoView({behavior:'smooth',block:'start'}); }); });
+    </script>
+</body>
+</html>
